@@ -31,3 +31,28 @@
 
 5. 重启区块链
    ./byfn.sh -m restart
+
+
+cli操作chaincode
+1. 重新启动cli
+   
+   docker stop <CONTAINER_ID>：停止container
+   docker start <CONTAINER_ID>：重新启动container
+
+   本次例子
+   docker start 2204744796dd
+
+2. 进入cli容器内部,先用以下命令进入CLI内部Bash：
+   docker exec -it cli bash
+
+
+
+
+
+
+
+
+
+
+
+
