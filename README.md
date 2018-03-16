@@ -33,6 +33,23 @@
    ./byfn.sh -m restart
 
 
+chaincode 安装和使用，使用安装token（积分代币）的例子
+1. peer安装
+   peer chaincode install -n token -v 1.0 -p github.com/hyperledger/fabric/examples/chaincode/go/token/chaincode
+
+2. 初始化
+   peer chaincode instantiate -o orderer.guotianchain.com:7050  -C guotianchannel -n token -v 1.0 -p github.com/token/chaincode -c '{"Args":["init","{"name: "Fabric Demo Token", "symbol": "FTD", "decimals": 2, "totalSupply": 1000}"]}'
+
+   peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')"
+
+3. 调用合约
+
+3.1 查询金额
+   peer chaincode query -C guotianchannel -n token -c '{"Args":["balance","{"user"; "myuser"}"]}'
+
+3.2 转帐
+   peer chaincode invoke -o orderer_address:7050 -C mychannel -n token -c '{"Args":["transfer","{"to": "otherUser", "value": 200}"]}'
+
 cli操作chaincode
 1. 重新启动cli
    
@@ -45,7 +62,8 @@ cli操作chaincode
 2. 进入cli容器内部,先用以下命令进入CLI内部Bash：
    docker exec -it cli bash
 
-
+3. 查询chaincode
+   peer chaincode query -C guotianchannel -n mycc -c '{"Args":["query","a"]}'
 
 
 
