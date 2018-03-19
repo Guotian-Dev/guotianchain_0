@@ -35,17 +35,15 @@
 
 chaincode 安装和使用，使用安装token（积分代币）的例子
 1. peer安装
-   peer chaincode install -n token -v 1.0 -p github.com/hyperledger/fabric/examples/chaincode/go/token/chaincode
+   peer chaincode install -n cointest -v 1.0 -p github.com/chaincode
 
 2. 初始化
-   peer chaincode instantiate -o orderer.guotianchain.com:7050  -C guotianchannel -n token -v 1.0 -p github.com/token/chaincode -c '{"Args":["init","{"name: "Fabric Demo Token", "symbol": "FTD", "decimals": 2, "totalSupply": 1000}"]}'
-
-   peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init","a", "100", "b","200"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer')"
+   peer chaincode instantiate -o orderer.guotianchain.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n cointest -v 1.0 -c '{"Args":[""]}' -P "OR ('Org1MSP.member','Org2MSP.member')" 
 
 3. 调用合约
 
 3.1 查询金额
-   peer chaincode query -C guotianchannel -n token -c '{"Args":["balance","{"user"; "myuser"}"]}'
+   peer chaincode query -C $CHANNEL_NAME -n cointest -c '{"Args":["queryAsset","public"]}'
 
 3.2 转帐
    peer chaincode invoke -o orderer_address:7050 -C mychannel -n token -c '{"Args":["transfer","{"to": "otherUser", "value": 200}"]}'
